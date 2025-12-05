@@ -12,17 +12,11 @@ async function typeSlow(page, selector, text, delay = 100) {
 }
 
 module.exports = async function executarCompra(dados) {
+  console.log("🧠 Dados recebidos:", dados);
+  console.log("🧠 Link:", link);
   const browser = await puppeteer.launch({
-  headless: true,                 // usa modo headless estável
-  args: [
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
-    '--disable-gpu',
-    '--window-size=1280,800',
-    '--single-process',
-    '--no-zygote'
-  ]
+  headless: false,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
 
 
@@ -138,7 +132,7 @@ module.exports = async function executarCompra(dados) {
       console.log("✅ Token de cartão confirmado pelo iframe.");
 
       console.log("⏳ Aguardando 2 minutos antes de seguir para o próximo produto...");
-        await delay(30000); // 2 minutos (120.000ms)
+        await delay(10000); // 2 minutos (120.000ms)
 
         console.log("➡️ Indo para o próximo link do funil...");
 
@@ -146,7 +140,9 @@ module.exports = async function executarCompra(dados) {
       console.log("⏳ Aguardando carregamento final da Hotmart...");
       await delay(10000);
     }
-  } finally {
+  }catch (err) {
+  console.error("🔥 ERRO DURANTE A COMPRA:", err);
+  }  finally {
     await browser.close(); 
   }
 };

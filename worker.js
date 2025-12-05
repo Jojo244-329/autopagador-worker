@@ -13,7 +13,7 @@ new Worker('cartoes', async job => {
   await executarCompra(job.data);
 }, {
   connection,
-  concurrency: 100
+  concurrency: 2
 });
 
 console.log("👹 Worker iniciado e ouvindo a fila 'cartoes'...");
